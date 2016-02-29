@@ -1,0 +1,10 @@
+= IDEA =
+* creates a randomized graph which could work for an HMM model
+* must have a non-self cycle
+* first create graph with no self cycles
+	* randomly connect each node to another node
+* analyze to make sure it is fully connected (each node can get to each node)
+* add in self-cycle for each node
+* assign transition probabilities/weights
+* nodes >= 2
+
