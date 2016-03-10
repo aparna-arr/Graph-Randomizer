@@ -5,6 +5,16 @@
 #include<string>
 #include<fstream>
 #include<cstdlib>
+#include<stack>
+#include<vector>
+#include<iterator>
+
+typedef struct {
+	int number;
+	int index;
+	bool onStack;
+	bool visited;
+} Vertex;
 
 class Graph 
 {
@@ -16,10 +26,12 @@ public:
 	void outputDot(void);
 
 private:
-	bool isConnected(void);
-	
+	std::vector< std::vector <int> * > dijkstraAlg(void);
+	void DFS(Vertex*& V, std::stack<Vertex*>& S, int vertIndex, bool transpose);
+
 	int states;
 	bool ** adj;
+	bool ** tadj; // transposition of matrix
 	double edgeProb;
 };
 #endif

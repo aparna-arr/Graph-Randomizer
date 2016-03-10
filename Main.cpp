@@ -12,7 +12,7 @@ int main (int argc, char * argv[])
 		Graph randGraph(inputObj.getStateNum());
 
 		randGraph.generate();
-		randGraph.dumpMatrix();
+//		randGraph.dumpMatrix();
 		randGraph.outputDot();
 	}
 	catch (int e)
@@ -20,6 +20,7 @@ int main (int argc, char * argv[])
 		if (e == 1)
 		{
 			cout << "Exiting!" << endl;
+			return 1;
 		}
 	}
 }
