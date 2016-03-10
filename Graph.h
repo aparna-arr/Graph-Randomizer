@@ -19,7 +19,7 @@ typedef struct {
 class Graph 
 {
 public:
-	Graph(int stateNum, double edgeProbability = 0.5);
+	Graph(int stateNum, double edgeProbability);
 
 	void generate(void);
 	void dumpMatrix(void);
@@ -28,6 +28,11 @@ public:
 private:
 	std::vector< std::vector <int> * > dijkstraAlg(void);
 	void DFS(Vertex*& V, std::stack<Vertex*>& S, int vertIndex, bool transpose);
+
+	void joinSCCs(std::vector< std::vector<int> * >& SCCs);
+
+	// cool algorithm, not needed.
+//	void uniqueRandom(int *& ptr, int maxSize, int numNumbers);
 
 	int states;
 	bool ** adj;

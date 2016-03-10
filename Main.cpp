@@ -9,7 +9,8 @@ int main (int argc, char * argv[])
 	try{
 		UserOpts inputObj(argc, argv);
 		cout << "Your number of states is: " << inputObj.getStateNum() << endl;
-		Graph randGraph(inputObj.getStateNum());
+		cout << "Your prob is: " << inputObj.getProb() << endl;
+		Graph randGraph(inputObj.getStateNum(), inputObj.getProb());
 
 		randGraph.generate();
 //		randGraph.dumpMatrix();

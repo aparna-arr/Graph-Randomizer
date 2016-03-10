@@ -13,9 +13,11 @@ public:
 
 	void printUsage(void);
 	int getStateNum(void);
+	double getProb(void);
 
 private:
 	int states;
+	double prob;
 };
 
 #endif

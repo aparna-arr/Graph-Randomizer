@@ -4,7 +4,7 @@ using namespace std;
 
 Graph::Graph(int stateNum, double edgeProbability)
 {
-	edgeProb = edgeProbability; // probability to flip edge bit is 50%
+	edgeProb = edgeProbability; 
 	states = stateNum;
 
 	adj = new bool*[states];
@@ -50,8 +50,76 @@ void Graph::generate(void)
 		}
 		cout << endl;
 	}
+
+	if (SCCs.size() > 1) // multiple sccs that must be joined
+		joinSCCs(SCCs);
+/*
+	vector<vector<int>*> debug = dijkstraAlg();
+	cout << "SCCS: " << debug.size() << endl;
+
+	for (vector<vector<int>*>::iterator it = debug.begin(); it != debug.end(); it++)
+	{
+		cout << "Group " << it - debug.begin() << " of size: " << (*it)->size() << endl;
+		for (vector<int>::iterator it2 = (*it)->begin(); it2 != (*it)->end(); it2++)
+		{
+			char letter = 'A';
+			letter += *it2;
+			cout << letter << " ";
+		}
+		cout << endl;
+	}
+*/
+
+	// now add self-cycles
+	for (int i = 0; i < states; i++)
+		adj[i][i] = tadj[i][i] = true;
 }
 
+void Graph::joinSCCs(vector< vector<int> * >& SCCs)
+{
+	while(SCCs.size() > 1)
+	{
+//		cerr << "SCCs.size is " << SCCs.size() << endl;
+		int randIndex = rand() % (SCCs.size() - 1);
+
+		int index1 = *(SCCs[randIndex]->begin() + (rand() % SCCs[randIndex]->size()));
+		int index2 = *(SCCs[SCCs.size() - 1]->begin() + (rand() % SCCs[SCCs.size() - 1]->size()));
+
+
+//		cerr << "randIndex is " << randIndex << " index1 is " << index1 << " index2 is " << index2 << endl;
+
+		adj[index1][index2] = adj[index2][index1] = true;
+		tadj[index1][index2] = adj[index2][index1] = true;
+
+		// now join SCCs and pop_back()
+		SCCs[randIndex]->reserve(SCCs[randIndex]->size() + SCCs[SCCs.size() - 1]->size());
+		SCCs[randIndex]->insert(SCCs[randIndex]->end(), SCCs[SCCs.size()-1]->begin(), SCCs[SCCs.size()-1]->end());
+		SCCs.pop_back();
+	}
+}
+/*
+void uniqueRandom(int *& ptr, int maxSize, int numNumbers)
+{
+	int array[maxSize+1];
+
+	for (int i = 0; i <= maxSize; i++)
+		array[i] = i;
+
+	// numNumbers MUST be < maxSize else undefined ptr errors
+	ptr = new int[numNumbers];
+
+	for (int i = 0; i < numNumbers; i++)
+	{
+		int index = rand() % (maxSize + 1);
+		ptr[i] = array[index];
+
+		int tmp = array[maxSize];
+		array[maxSize] = array[index];
+		array[index] = tmp;
+		maxSize--;
+	}
+}
+*/
 void Graph::dumpMatrix(void)
 {
 	// print graph adjacency matrix
